@@ -237,6 +237,6 @@ If you find this repository interesting and/or useful, please consider citing th
   year={2026},
   eprint={2604.02445},
   archivePrefix={arXiv},
-  url={[https://arxiv.org/abs/2604.02445](https://arxiv.org/abs/2604.02445)}
+  url={https://arxiv.org/abs/2604.02445}
 }
 
