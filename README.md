@@ -216,3 +216,27 @@ Summary:
   and helper utilities
 - `mmpad_submission/wrapper_mmp_ad.py`: defaults, HP tables, and
   `run_MMPAD(...)`
+
+### Citation
+
+If you find this repository interesting and/or useful, please consider citing the following papers:
+
+```bibtex
+@inproceedings{yeh2024matrix,
+  title={Matrix profile for anomaly detection on multidimensional time series},
+  author={Yeh, Chin-Chia Michael and Der, Audrey and Saini, Uday Singh and Lai, Vivian and Zheng, Yan and Wang, Junpeng and Dai, Xin and Zhuang, Zhongfang and Fan, Yujie and Chen, Huiyuan and others},
+  booktitle={2024 IEEE International Conference on Data Mining (ICDM)},
+  pages={911--916},
+  year={2024},
+  organization={IEEE}
+}
+
+@misc{yeh2026matrix,
+  title={Matrix Profile for Time-Series Anomaly Detection: A Reproducible Open-Source Benchmark on TSB-AD}, 
+  author={Yeh, Chin-Chia Michael},
+  year={2026},
+  eprint={2604.02445},
+  archivePrefix={arXiv},
+  url={[https://arxiv.org/abs/2604.02445](https://arxiv.org/abs/2604.02445)}
+}
+
