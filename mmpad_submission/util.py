@@ -1,5 +1,6 @@
 import numpy as np
-from TSB_AD.utils.slidingWindows import find_length_rank
+from scipy.signal import argrelextrema
+from statsmodels.tsa.stattools import acf
 from TSB_AD.utils.utility import zscore
 
 EPS = 1e-6
@@ -8,6 +9,8 @@ MMPAD_DEFAULT_TIME_BUDGET = float(1.142528e13)
 # c5.4xlarge setup in use. It was anchored from a completed run with effective
 # n_job=14 and should be recalibrated if the machine class or n_job policy
 # changes.
+
+
 def to_2d_ts(seq):
     seq = np.asarray(seq)
     if seq.ndim == 1:
@@ -55,6 +58,45 @@ def resolve_n_dim(n_dim, total_dim):
     return max(1, min(n_dim_resolved, total_dim))
 
 
+def _find_length_rank(data, rank=1):
+    data = np.asarray(data, dtype=float).squeeze()
+    if len(data.shape) > 1:
+        return 0
+    if rank == 0:
+        return 1
+    data = data[:min(20000, len(data))]
+
+    base = 3
+    auto_corr = acf(data, nlags=400, fft=True)[base:]
+    local_max = argrelextrema(auto_corr, np.greater)[0]
+
+    try:
+        sorted_local_max = np.argsort([auto_corr[lcm] for lcm in local_max])[::-1]
+        max_local_max = sorted_local_max[0]
+        if rank == 1:
+            max_local_max = sorted_local_max[0]
+        if rank == 2:
+            for i in sorted_local_max[1:]:
+                if i > sorted_local_max[0]:
+                    max_local_max = i
+                    break
+        if rank == 3:
+            for i in sorted_local_max[1:]:
+                if i > sorted_local_max[0]:
+                    id_tmp = i
+                    break
+            for i in sorted_local_max[id_tmp:]:
+                if i > sorted_local_max[id_tmp]:
+                    max_local_max = i
+                    break
+
+        if local_max[max_local_max] < 3 or local_max[max_local_max] > 300:
+            return 125
+        return local_max[max_local_max] + base
+    except Exception:
+        return 125
+
+
 def infer_periodic_sub_len(data_2d, periodicity):
     seq = np.asarray(data_2d, dtype=float)
     if seq.ndim == 1:
@@ -62,7 +104,8 @@ def infer_periodic_sub_len(data_2d, periodicity):
     if seq.shape[0] <= 1:
         return 1
     seq = zscore(seq, axis=0, ddof=0)
-    sub_len = int(find_length_rank(seq[:, 0], rank=int(periodicity)))
+    sub_len = int(_find_length_rank(seq[:, 0], rank=int(periodicity)))
+    sub_len = max(64, sub_len)
     return max(1, min(sub_len, seq.shape[0]))
 
 
