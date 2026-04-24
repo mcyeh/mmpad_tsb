@@ -147,8 +147,20 @@ Both runners accept:
 
 ### Archived Results
 
-The submission folder also includes local copies of the final archived metric
-CSVs:
+The submission folder also includes local copies of the submitted benchmark
+metric CSVs:
+
+- `archived_results/submitted/uni/MMPAD.csv`
+- `archived_results/submitted/multi/MMPAD.csv`
+
+Submitted result summary:
+
+- Univariate mean `VUS-PR`: `0.439859055810987` over `350` datasets
+- Multivariate mean `VUS-PR`: `0.353892999162374` over `180` datasets
+- Rounded to two decimals, these are `0.44` and `0.35`, matching the published
+  TSB-AD leaderboard values checked on April 24, 2026
+
+The folder also preserves older archived reference runs:
 
 - `archived_results/cpu_hp_0/uni/MMPAD.csv`
 - `archived_results/cpu_hp_0/multi/MMPAD.csv`
@@ -157,7 +169,7 @@ CSVs:
 - `archived_results/gpu_hp_1/uni/MMPAD.csv`
 - `archived_results/gpu_hp_1/multi/MMPAD.csv`
 
-### Archived Result Summary
+### Legacy Archived Result Summary
 
 The tables below summarize the archived CPU and GPU runs. Values are simple
 averages over the archived metric CSVs.
@@ -192,6 +204,8 @@ Multivariate:
 
 Summary:
 
+- The submitted archive for the current benchmark handoff is
+  `archived_results/submitted`
 - The tables above are archived reference results for `cpu_hp_0`,
   `gpu_hp_0`, and `gpu_hp_1`
 - `hp=0` and `hp=1` are two alternative full submission configurations
@@ -239,4 +253,3 @@ If you find this repository interesting and/or useful, please consider citing th
   archivePrefix={arXiv},
   url={https://arxiv.org/abs/2604.02445}
 }
-
